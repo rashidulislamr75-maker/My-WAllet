@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no,email=no,address=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b0e14">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233b82f6'/%3E%3Cpath d='M14 22a6 6 0 0 1 6-6h24a4 4 0 0 1 4 4v4H20a2 2 0 1 0 0 4h28v14a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V22z' fill='white'/%3E%3Ccircle cx='40' cy='34' r='3.4' fill='%233b82f6'/%3E%3C/svg%3E">
+<title>My Wallet</title>
+<style>
+  :root, html[data-theme="dark"]{
+    --bg:#0b0e14; --panel:#131722; --panel2:#171c29; --border:#232838;
+    --text:#eef1f7; --sub:#8891a7; --blue:#3b82f6; --blue-dark:#2563eb;
+    --green:#22c55e; --red:#ef4444; --yellow:#f59e0b; --binance:#f0b90b;
+    --outer-bg:#05060a; --native-scheme:dark;
+    --radius:18px;
+  }
+  html[data-theme="light"]{
+    --bg:#f4f5f8; --panel:#ffffff; --panel2:#eef0f4; --border:#dfe2e8;
+    --text:#12151c; --sub:#6b7280; --blue:#3b82f6; --blue-dark:#2563eb;
+    --green:#16a34a; --red:#dc2626; --yellow:#d97706; --binance:#b8860b;
+    --outer-bg:#e7e9ee; --native-scheme:light;
+  }
+  html[data-theme="grey"]{
+    --bg:#3d4149; --panel:#484c55; --panel2:#52565f; --border:#5f636c;
+    --text:#f2f3f5; --sub:#c7cad0; --blue:#5b9bf7; --blue-dark:#3b82f6;
+    --green:#4ade80; --red:#f87171; --yellow:#fbbf24; --binance:#f0b90b;
+    --outer-bg:#2a2d33; --native-scheme:dark;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; max-width:100%;}
+  svg.ic{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; vertical-align:middle;}
+  html{width:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; text-size-adjust:100%; touch-action:pan-y; overscroll-behavior:none;}
+  body{width:100%; overflow-x:hidden; touch-action:pan-y; overscroll-behavior:none;}
+  input, select, textarea, button{font-size:16px; -webkit-user-select:auto;}
+  img, svg{max-width:100%; height:auto; display:block;}
+  body{background:var(--outer-bg); font-family:'Segoe UI', Roboto, -apple-system, sans-serif; color:var(--text); display:flex; justify-content:center; padding:0; min-height:100vh; transition:background .2s ease; -webkit-user-select:none; user-select:none;}
+  .phone{
+    width:100%;
+    max-width:100%;
+    background:var(--bg);
+    overflow-x:hidden;
+    position:relative;
+    min-height:100vh;
+  }
+  @media (min-width:520px){
+    body{padding:24px 8px;}
+    .phone{
+      width:390px;
+      max-width:100%;
+      min-height:auto;
+      border-radius:36px;
+      border:8px solid #14161c;
+      box-shadow:0 30px 60px rgba(0,0,0,.5);
+    }
+    .screen{min-height:680px; max-height:760px;}
+  }
+  .statusbar{display:none;}
+  .screen{display:none; min-height:calc(100vh - 34px); max-height:calc(100vh - 34px); overflow-y:auto; overflow-x:hidden; padding:env(safe-area-inset-top,14px) 20px 90px; position:relative; width:100%;}
+  .screen.active{display:block; animation:fadeIn .2s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .screen::-webkit-scrollbar{width:0;}
+
+  /* LOGIN */
+  #login .brand{text-align:center; margin-top:24px;}
+  .logo-badge{width:56px; height:56px; border-radius:16px; background:linear-gradient(135deg,var(--blue),#60a5fa); display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:26px;}
+  #login h1{font-size:22px; margin-bottom:4px;}
+  #login .tag{color:var(--sub); font-size:13px; margin-bottom:28px;}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:20px;}
+  .card h2{font-size:18px; margin-bottom:18px; text-align:center;}
+  .field{margin-bottom:14px;}
+  .field label{font-size:11px; color:var(--sub); letter-spacing:.05em; display:block; margin-bottom:6px;}
+  .field .input{background:var(--panel2); border:1px solid var(--border); border-radius:12px; padding:12px 14px; font-size:14px; display:flex; align-items:center; gap:8px;}
+  .field .input input{background:transparent; border:none; outline:none; color:var(--text); font-size:16px; width:100%; font-family:inherit;}
+  .forgot{text-align:center; font-size:12px; color:var(--blue); margin-top:18px; cursor:pointer;}
+  .btn-primary{width:100%; background:linear-gradient(135deg,var(--blue),var(--blue-dark)); color:#fff; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:600; cursor:pointer;}
+  .btn-secondary{width:100%; background:var(--panel2); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:13px; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn-danger{width:100%; background:rgba(239,68,68,.12); color:var(--red); border:1px solid rgba(239,68,68,.35); border-radius:12px; padding:13px; font-size:14px; font-weight:600; cursor:pointer;}
+
+  /* PIN */
+  .pin-input{background:var(--panel2); border:1px solid var(--border); border-radius:12px; padding:14px; font-size:22px; font-weight:700; letter-spacing:10px; text-align:center; color:var(--text); width:100%; outline:none; font-family:inherit;}
+  .pin-input:focus{border-color:var(--blue);}
+
+  /* HOME */
+  .topbar{display:flex; justify-content:space-between; align-items:center; padding-top:18px; position:relative;}
+  .welcome-row{display:flex; align-items:center; gap:10px; cursor:pointer;}
+  .avatar{width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#f472b6,#a855f7); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;}
+  .welcome-text{font-size:11px; color:var(--sub);}
+  .welcome-text b{display:block; font-size:14px; color:var(--text); font-weight:600;}
+  .bell{width:38px; height:38px; border-radius:50%; background:var(--panel2); display:flex; align-items:center; justify-content:center; border:1px solid var(--border); cursor:pointer; position:relative;}
+  .bell .badge{position:absolute; top:-2px; right:-2px; width:9px; height:9px; border-radius:50%; background:var(--red); border:2px solid var(--bg);}
+  .notif-panel{position:absolute; top:48px; right:0; width:270px; max-width:78vw; background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:10px; z-index:40; display:none; box-shadow:0 12px 30px rgba(0,0,0,.5);}
+  .notif-panel.open{display:block;}
+  .notif-item{padding:9px 8px; font-size:12px; border-bottom:1px solid var(--border); color:var(--sub);}
+  .notif-item:last-child{border-bottom:none;}
+  .notif-item b{color:var(--text);}
+
+  .networth{margin-top:16px; background:linear-gradient(160deg,#141a2a,#0e1220); border:1px solid var(--border); border-radius:var(--radius); padding:18px;}
+  .networth-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .calendar-btn{width:34px; height:34px; border-radius:10px; background:var(--panel2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px; flex-shrink:0;}
+  .networth .lbl{font-size:11px; color:var(--sub); letter-spacing:.05em;}
+  .networth .amt{font-size:28px; font-weight:700; margin:6px 0 2px; display:flex; align-items:center; gap:8px;}
+  .pill-up{background:rgba(34,197,94,.15); color:var(--green); font-size:11px; padding:3px 8px; border-radius:20px; font-weight:600;}
+  .pill-down{background:rgba(239,68,68,.15); color:var(--red); font-size:11px; padding:3px 8px; border-radius:20px; font-weight:600;}
+  .spark{height:38px; margin-top:6px;}
+
+  .section-title{display:flex; justify-content:space-between; align-items:center; margin:20px 0 10px;}
+  .section-title h3{font-size:14px; font-weight:600;}
+  .section-title a{font-size:12px; color:var(--blue); cursor:pointer;}
+
+  /* WALLET SCROLL ROW — FIX: added a clipping wrapper + CSS containment so
+     Android WebView (AppsGeyser-style APK wrappers) can't measure this row's
+     unclipped intrinsic width when computing the page's "ideal" viewport
+     scale. This was the root cause of the Home-page-only zoom/crop bug. */
+  .wallets-scroll-clip{
+    width:100%;
+    max-width:100%;
+    overflow:hidden;
+    contain:layout style paint;
+  }
+  .wallets-scroll{
+    display:flex; gap:10px; overflow-x:auto; padding-bottom:4px;
+    contain:layout style paint;
+    width:100%; max-width:100%;
+    overscroll-behavior-x:contain;
+    touch-action:pan-x;
+  }
+  .wallets-scroll::-webkit-scrollbar{display:none;}
+  .wallet-chip{min-width:104px; background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px; flex-shrink:0; cursor:pointer; transition:border-color .15s;}
+  .wallet-chip:active{border-color:var(--blue);}
+  .wallet-chip .wname{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--sub); margin-bottom:8px;}
+  .dot{width:6px; height:6px; border-radius:50%; flex-shrink:0;}
+  .wallet-chip .wamt{font-size:15px; font-weight:700;}
+
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;}
+  .stat-box{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px;}
+  .stat-box .stitle{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--sub); margin-bottom:6px;}
+  .stat-box .samt{font-size:15px; font-weight:700;}
+
+  .tx-list{margin-top:6px;}
+  .tx-row{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); cursor:pointer;}
+  .tx-row:last-child{border-bottom:none;}
+  .tx-icon{width:38px; height:38px; border-radius:12px; background:var(--panel2); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;}
+  .tx-info{flex:1; min-width:0;}
+  .tx-info .tname{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .tx-info .tmeta{font-size:11px; color:var(--sub);}
+  .tx-amt{font-size:13.5px; font-weight:700; flex-shrink:0;}
+  .tx-amt.neg{color:var(--red);}
+  .tx-amt.pos{color:var(--green);}
+  .empty-note{text-align:center; color:var(--sub); font-size:12.5px; padding:30px 0;}
+
+  .add-tx-btn{grid-column:1/3; background:linear-gradient(135deg,var(--blue),var(--blue-dark)); border:none; border-radius:14px; padding:14px; display:flex; align-items:center; justify-content:center; gap:8px; color:#fff; font-size:14px; font-weight:700; cursor:pointer; box-shadow:0 8px 20px rgba(59,130,246,.35);}
+  .add-tx-btn:active{opacity:.9;}
+  .add-tx-btn .plus-ic{font-size:19px; line-height:1;}
+
+  /* ADD TRANSACTION */
+  .addtx-head{display:flex; justify-content:space-between; align-items:center; padding-top:20px; margin-bottom:20px;}
+  .addtx-head h2{font-size:20px;}
+  .gear{width:36px; height:36px; border-radius:50%; background:var(--panel2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;}
+  .label-sm{font-size:11px; color:var(--sub); letter-spacing:.05em; margin-bottom:8px; display:block;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px;}
+  .chip{padding:9px 16px; border-radius:20px; font-size:13px; background:var(--panel2); border:1px solid var(--border); color:var(--sub); cursor:pointer;}
+  .chip.active{background:var(--blue); color:#fff; border-color:var(--blue);}
+  .wallet-select-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px;}
+  .wsel{padding:10px 14px; border-radius:12px; font-size:13px; background:var(--panel2); border:1px solid var(--border); color:var(--sub); cursor:pointer; display:flex; align-items:center; gap:6px;}
+  .wsel.active{background:var(--panel); border-color:var(--blue); color:var(--text);}
+  select.plainselect{background:var(--panel); border:1px solid var(--border); color:var(--text); border-radius:12px; padding:11px 12px; font-size:16px; width:100%; margin-bottom:18px; font-family:inherit;}
+
+  .amount-box{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:18px; margin-bottom:16px;}
+  .amount-box .label-sm{margin-bottom:10px;}
+  .amtval{font-size:30px; font-weight:700; display:flex; justify-content:space-between; align-items:center;}
+  .amtval .curr{display:flex; align-items:center;}
+  .amount-input{background:transparent; border:none; color:var(--text); font-size:30px; font-weight:700; width:100%; max-width:180px; outline:none; font-family:inherit;}
+  .bksp{cursor:pointer; font-size:18px; color:var(--sub); padding:4px 8px;}
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;}
+  .input-box{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:10px 14px; font-size:13px; display:flex; align-items:center; gap:8px; min-width:0;}
+  .input-box input{background:transparent; border:none; color:var(--text); font-size:16px; outline:none; width:100%; min-width:0; font-family:inherit; color-scheme:var(--native-scheme);}
+  .textbox{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px 14px; font-size:13.5px; margin-bottom:16px;}
+  textarea.plain, input.plain{background:transparent; border:none; color:var(--text); font-size:16px; width:100%; outline:none; font-family:inherit; resize:none;}
+  .note-box textarea{min-height:56px;}
+
+  /* ANALYTICS */
+  .an-tabs{display:flex; gap:8px; background:var(--panel2); border-radius:12px; padding:4px; margin-top:18px;}
+  .an-tab{flex:1; text-align:center; padding:9px; border-radius:9px; font-size:13px; color:var(--sub); cursor:pointer;}
+  .an-tab.active{background:var(--blue); color:#fff; font-weight:600;}
+  .filter-row{display:flex; gap:8px; margin:14px 0; flex-wrap:wrap;}
+  .filter-chip{padding:7px 12px; border-radius:10px; background:var(--panel2); border:1px solid var(--border); font-size:12px; color:var(--sub); cursor:pointer;}
+  .filter-chip.active{background:var(--panel); color:var(--text); border-color:var(--blue);}
+  select.filter-select{background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:7px 10px; font-size:16px; color:var(--sub); font-family:inherit; max-width:100%;}
+
+  .donut-wrap{display:flex; align-items:center; gap:16px; background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-top:6px;}
+  .legend{font-size:12px;}
+  .legend-item{display:flex; align-items:center; gap:6px; margin-bottom:8px; color:var(--sub);}
+
+  .bars-card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-top:14px;}
+  .bars-title{font-size:11px; color:var(--sub); letter-spacing:.05em; margin-bottom:14px;}
+  .bars{display:flex; align-items:flex-end; gap:10px; height:90px;}
+  .bar-group{display:flex; flex-direction:column; align-items:center; gap:3px; flex:1;}
+  .bar-pair{display:flex; gap:3px; align-items:flex-end; height:70px;}
+  .bar{width:7px; border-radius:3px 3px 0 0;}
+  .bar.in{background:var(--green);}
+  .bar.ex{background:var(--red);}
+  .bar-group .m{font-size:9px; color:var(--sub);}
+
+  .cat-list{margin-top:14px;}
+  .cat-row{display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border);}
+  .cat-row:last-child{border-bottom:none;}
+  .cat-row .cname{flex:1; font-size:13px;}
+  .cat-row .camt{font-size:13px; font-weight:600;}
+
+  .hist-row{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--border);}
+  .hist-row .xdel{color:var(--sub); cursor:pointer; padding:4px; display:flex; align-items:center;}
+
+  /* CALENDAR SCREEN */
+  .cal-head{display:flex; align-items:center; justify-content:space-between; padding-top:20px; margin-bottom:18px;}
+  .cal-back{width:34px; height:34px; border-radius:50%; background:var(--panel2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px; flex-shrink:0;}
+  .cal-month-nav{display:flex; align-items:center; gap:12px;}
+  .cal-month-nav button{background:var(--panel2); border:1px solid var(--border); color:var(--text); width:28px; height:28px; border-radius:8px; cursor:pointer; font-size:13px; display:flex; align-items:center; justify-content:center;}
+  .cal-title{font-size:14.5px; font-weight:600; min-width:110px; text-align:center;}
+  .cal-weekdays{display:grid; grid-template-columns:repeat(7,1fr); text-align:center; font-size:10px; color:var(--sub); margin-bottom:8px;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:5px;}
+  .cal-cell{aspect-ratio:1; border-radius:10px; background:var(--panel); border:1px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:11.5px; cursor:pointer; gap:1px; padding:2px;}
+  .cal-cell.empty{background:transparent; border:none; cursor:default;}
+  .cal-cell.today{border-color:var(--blue); border-width:1.5px;}
+  .cal-cell .dnum{font-weight:600;}
+  .cal-cell .dexp{font-size:8px; color:var(--red); font-weight:600;}
+  .cal-cell .dinc{font-size:8px; color:var(--green); font-weight:600;}
+  .cal-legend{display:flex; gap:16px; margin-top:12px; font-size:11px; color:var(--sub);}
+  .cal-legend span{display:inline-flex; align-items:center; gap:5px;}
+
+  /* WALLETS SCREEN */
+  .wallets-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px;}
+  .wcard{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:14px; cursor:pointer;}
+  .wcard .wtop{display:flex; align-items:center; gap:8px; margin-bottom:14px;}
+  .wcard .wname2{font-size:13px; color:var(--sub);}
+  .wcard .wbal{font-size:17px; font-weight:700;}
+  .add-wallet-card{border:1.5px dashed var(--border); background:transparent; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--sub); font-size:12px; min-height:84px;}
+  .add-wallet-card .plus{font-size:22px; color:var(--blue);}
+
+  /* PROFILE */
+  .profile-head{text-align:center; padding-top:26px;}
+  .profile-avatar{width:76px; height:76px; border-radius:50%; background:linear-gradient(135deg,#f472b6,#a855f7); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:700;}
+  .profile-head h2{font-size:18px;}
+  .profile-head p{font-size:12.5px; color:var(--sub); margin-top:2px;}
+  .menu-list{margin-top:22px; background:var(--panel); border:1px solid var(--border); border-radius:16px; overflow:hidden;}
+  .menu-item{display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--border); cursor:pointer; font-size:13.5px;}
+  .menu-item:last-child{border-bottom:none;}
+  .menu-item .mic{width:22px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .menu-item .marrow{margin-left:auto; color:var(--sub);}
+
+  /* THEME PICKER */
+  .theme-option{display:flex; align-items:center; gap:14px; padding:14px; border:1.5px solid var(--border); border-radius:14px; margin-bottom:10px; cursor:pointer; transition:border-color .15s, background .15s;}
+  .theme-option.active{border-color:var(--blue); background:rgba(59,130,246,.1);}
+  .theme-swatch{width:42px; height:42px; border-radius:50%; flex-shrink:0; border:1px solid rgba(255,255,255,.15); position:relative; overflow:hidden;}
+  .theme-swatch .sw-panel{position:absolute; right:0; bottom:0; width:60%; height:60%; border-radius:50% 0 0 0;}
+  .theme-option .tname{font-size:14px; font-weight:600;}
+  .theme-option .tdesc{font-size:11.5px; color:var(--sub); margin-top:2px;}
+  .theme-check{margin-left:auto; font-size:16px; color:var(--blue); visibility:hidden;}
+  .theme-option.active .theme-check{visibility:visible;}
+
+  /* MODAL */
+  .overlay{position:absolute; inset:0; background:rgba(0,0,0,.6); z-index:60; display:none; align-items:flex-end; justify-content:center;}
+  .overlay.open{display:flex;}
+  .modal{width:100%; background:var(--panel); border-radius:24px 24px 0 0; padding:20px 20px 26px; max-height:80%; overflow-y:auto; border:1px solid var(--border); border-bottom:none;}
+  .modal-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;}
+  .modal-head h3{font-size:16px;}
+  .modal-close{width:30px; height:30px; border-radius:50%; background:var(--panel2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px;}
+
+  /* TOAST */
+  .toast{position:absolute; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:#1c2130; border:1px solid var(--border); padding:10px 18px; border-radius:30px; font-size:12.5px; opacity:0; pointer-events:none; transition:all .25s ease; z-index:80; white-space:nowrap;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* BOTTOM NAV */
+  .bottomnav{position:absolute; left:0; right:0; bottom:0; background:rgba(11,14,20,.95); backdrop-filter:blur(10px); border-top:1px solid var(--border); display:flex; padding:10px 10px 8px; z-index:30;}
+  .nav-item{flex:1; text-align:center; font-size:10px; color:var(--sub); cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; padding:2px 0;}
+  .nav-item.active{color:var(--blue);}
+  .nav-item .ic{display:block; margin:0 auto;}
+  .home-indicator{width:120px; height:4px; background:#444; border-radius:3px; margin:8px auto 0;}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+
+  <!-- LOGIN / PIN -->
+  <div class="screen active" id="login">
+    <div class="brand">
+      <div class="logo-badge">
+        <svg width="28" height="28" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M14 22a6 6 0 0 1 6-6h24a4 4 0 0 1 4 4v4H20a2 2 0 1 0 0 4h28v14a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V22z" fill="#ffffff"/>
+          <circle cx="40" cy="34" r="3.4" fill="#3b82f6"/>
+        </svg>
+      </div>
+      <h1>My Wallet</h1>
+      <div class="tag">সম্পূর্ণ অফলাইন পার্সোনাল ফাইন্যান্স ট্র্যাকার</div>
+    </div>
+
+    <!-- First-time setup: name + create PIN -->
+    <div class="card" id="pinSetupCard" style="display:none;">
+      <h2 id="setupTitle">Create Your PIN</h2>
+      <div class="field">
+        <label>YOUR NAME</label>
+        <div class="input"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg> <input id="setupName" placeholder="আপনার নাম"></div>
+      </div>
+      <div class="field">
+        <label id="setupPinLabel">৪-সংখ্যার পিন দিন</label>
+        <input class="pin-input" id="setupPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••" oninput="onSetupPinInput(this)">
+      </div>
+      <div class="forgot" onclick="document.getElementById('setupImportInput').click()">নতুন করে শুরু না করে ব্যাকআপ ফাইল থেকে ফিরিয়ে আনুন</div>
+      <input type="file" id="setupImportInput" accept="application/json" style="display:none;" onchange="importOnSetup(event)">
+    </div>
+
+    <!-- Returning user: enter PIN -->
+    <div class="card" id="pinUnlockCard" style="display:none;">
+      <h2 id="unlockGreeting">Welcome Back</h2>
+      <div class="field">
+        <label>আপনার পিন দিন</label>
+        <input class="pin-input" id="unlockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••" oninput="onUnlockPinInput(this)">
+      </div>
+      <div class="forgot" onclick="confirmResetApp()">পিন ভুলে গেছেন?</div>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="topbar">
+      <div class="welcome-row" onclick="showScreen('profile')">
+        <div class="avatar" id="homeAvatarInit">A</div>
+        <div class="welcome-text">WELCOME BACK,<b id="homeUserName">Alerzano</b></div>
+      </div>
+      <div class="bell" onclick="toggleNotifications(event)"><svg class="ic" style="width:19px;height:19px;" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><span class="badge"></span>
+        <div class="notif-panel" id="notifPanel"></div>
+      </div>
+    </div>
+
+    <div class="networth">
+      <div class="networth-head">
+        <div class="lbl">TOTAL COMBINED NET WORTH</div>
+        <div class="calendar-btn" onclick="openCalendar()" title="View daily spending calendar"><svg class="ic" style="width:17px;height:17px;" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg></div>
+      </div>
+      <div class="amt" onclick="openCalendar()" style="cursor:pointer;"><span id="netWorthAmt">Tk 0</span><span class="pill-up" id="netWorthPill">↑ +0%</span></div>
+      <svg class="spark" viewBox="0 0 300 40" preserveAspectRatio="none">
+        <polyline points="0,20 300,20" fill="none" stroke="#3b82f6" stroke-width="2" id="sparkLine"/>
+      </svg>
+    </div>
+
+    <div class="section-title"><h3>My Wallets</h3><a onclick="showScreen('wallets')">See All</a></div>
+    <div class="wallets-scroll-clip">
+      <div class="wallets-scroll" id="homeWalletsScroll"></div>
+    </div>
+
+    <div class="stat-grid" id="statGrid"></div>
+
+    <div class="section-title"><h3>Recent Transactions</h3><a onclick="openHistory()">See All</a></div>
+    <div class="tx-list" id="recentTxList"></div>
+  </div>
+
+  <!-- ADD TRANSACTION -->
+  <div class="screen" id="add">
+    <div class="addtx-head"><h2>Add Transaction</h2><div class="gear" onclick="cancelAddTransaction()"><svg class="ic" style="width:15px;height:15px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+
+    <span class="label-sm">TRANSACTION CATEGORY</span>
+    <div class="chip-row" id="categoryChips">
+      <div class="chip active" data-val="expense" onclick="selectChip(this,'category')">Expense</div>
+      <div class="chip" data-val="income" onclick="selectChip(this,'category')">Income</div>
+      <div class="chip" data-val="savings" onclick="selectChip(this,'category')">Savings</div>
+      <div class="chip" data-val="loanGiven" onclick="selectChip(this,'category')">Loan Given</div>
+      <div class="chip" data-val="loanTaken" onclick="selectChip(this,'category')">Loan Taken</div>
+    </div>
+
+    <div id="subcatWrap">
+      <span class="label-sm">EXPENSE TYPE</span>
+      <select class="plainselect" id="subcatSelect">
+        <option value="Food & Dining">Food & Dining</option>
+        <option value="Rent & Utilities">Rent & Utilities</option>
+        <option value="Transportation">Transportation</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <span class="label-sm">SELECT WALLET / ACCOUNT</span>
+    <div class="wallet-select-row" id="txWalletRow"></div>
+
+    <div class="amount-box">
+      <span class="label-sm">ENTER AMOUNT (BDT)</span>
+      <div class="amtval">
+        <span class="curr">Tk&nbsp;<input id="amountInput" class="amount-input" type="text" inputmode="numeric" placeholder="0" oninput="cleanAmount()"></span>
+        <span class="bksp" onclick="backspaceAmount()">⌫</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <span class="label-sm">DATE</span>
+        <div class="input-box"><svg class="ic" style="width:15px;height:15px;" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg> <input type="date" id="txDate"></div>
+      </div>
+      <div>
+        <span class="label-sm">TIME</span>
+        <div class="input-box"><svg class="ic" style="width:15px;height:15px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> <input type="time" id="txTime"></div>
+      </div>
+    </div>
+
+    <span class="label-sm">NOTE / PERSON NAME</span>
+    <div class="textbox"><input class="plain" id="txNote" placeholder="e.g. Dinner at Chef's Table"></div>
+
+    <span class="label-sm">RECEIPT / DESCRIPTION (OPTIONAL)</span>
+    <div class="textbox note-box"><textarea class="plain" id="txDesc" placeholder="Add details or attach receipt..."></textarea></div>
+
+    <button class="btn-primary" onclick="saveTransaction()">Save Transaction</button>
+  </div>
+
+  <!-- ANALYTICS / HISTORY -->
+  <div class="screen" id="analytics">
+    <div class="addtx-head" style="margin-bottom:8px;"><h2 style="font-size:18px;">Activity</h2></div>
+    <div class="an-tabs">
+      <div class="an-tab" data-tab="history" onclick="switchAnTab('history')">History</div>
+      <div class="an-tab active" data-tab="stats" onclick="switchAnTab('stats')">Analytics</div>
+    </div>
+    <div class="filter-row">
+      <div class="filter-chip active" id="periodChip" onclick="togglePeriod()">This Month</div>
+      <div class="filter-chip" id="walletChip" onclick="cycleWalletFilter()">All Wallets</div>
+      <select class="filter-select" id="categoryFilter" onchange="renderAnalytics()">
+        <option value="all">All Categories</option>
+        <option value="Food & Dining">Food & Dining</option>
+        <option value="Rent & Utilities">Rent & Utilities</option>
+        <option value="Transportation">Transportation</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div id="statsPane">
+      <span class="label-sm">EXPENSE BREAKDOWN BY CATEGORY</span>
+      <div class="donut-wrap">
+        <svg width="110" height="110" viewBox="0 0 42 42" id="donutSvg"></svg>
+        <div class="legend" id="donutLegend"></div>
+      </div>
+
+      <div class="bars-card">
+        <div class="bars-title">INCOME VS EXPENSE OVERVIEW (LAST 6 MONTHS)</div>
+        <div class="bars" id="barsChart"></div>
+      </div>
+
+      <div class="cat-list" id="catList"></div>
+    </div>
+
+    <div id="historyPane" style="display:none;">
+      <div class="tx-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="screen" id="calendar">
+    <div class="cal-head">
+      <div class="cal-back" onclick="showScreen('home')"><svg class="ic" style="width:15px;height:15px;" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><path d="M11 6l-6 6 6 6"/></svg></div>
+      <div class="cal-month-nav">
+        <button onclick="changeCalMonth(-1)"><svg class="ic" style="width:13px;height:13px;" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <div class="cal-title" id="calTitle">August 2026</div>
+        <button onclick="changeCalMonth(1)"><svg class="ic" style="width:13px;height:13px;" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+      <div style="width:34px;"></div>
+    </div>
+    <div class="cal-weekdays"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-legend"><span><span class="dot" style="background:var(--red)"></span>Expense that day</span><span><span class="dot" style="background:var(--green)"></span>Income that day</span></div>
+
+    <div class="bars-card">
+      <div class="bars-title">NET WORTH TREND (THIS MONTH)</div>
+      <svg viewBox="0 0 300 90" preserveAspectRatio="none" style="width:100%; height:90px;">
+        <polyline id="calTrendLine" points="" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- WALLETS -->
+  <div class="screen" id="wallets">
+    <div class="addtx-head"><h2 style="font-size:20px;">My Wallets</h2></div>
+    <div class="wallets-grid" id="walletsGrid"></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="screen" id="profile">
+    <div class="profile-head">
+      <div class="profile-avatar" id="profileAvatarInit">A</div>
+      <h2 id="profileName">Alerzano</h2>
+      <p id="profileEmail">এই ডিভাইসে সংরক্ষিত — সম্পূর্ণ অফলাইন</p>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item" onclick="openEditProfile()"><span class="mic"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></span>Edit Profile<span class="marrow"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></div>
+      <div class="menu-item" onclick="showToast('Security settings coming soon')"><span class="mic"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>Security<span class="marrow"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></div>
+      <div class="menu-item" onclick="showToast('Notification preferences coming soon')"><span class="mic"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span>Notifications<span class="marrow"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></div>
+      <div class="menu-item" onclick="openThemeModal()"><span class="mic"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 2-.8 2-2 0-.6-.2-1-.5-1.4-.3-.4-.5-.8-.5-1.3 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-7.5-9-7.5z"/><circle cx="7.5" cy="10.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="10.5" cy="7" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="7.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="17" cy="11.5" r="1.1" fill="currentColor" stroke="none"/></svg></span>Appearance<span class="marrow"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></div>
+      <div class="menu-item" onclick="openBackupModal()"><span class="mic"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M5 3h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M8 3v5h8V3"/><rect x="7" y="13" width="10" height="7"/></svg></span>Backup & Restore<span class="marrow"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></div>
+      <div class="menu-item" onclick="showToast('Help center coming soon')"><span class="mic"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 .9-1 1.7"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/></svg></span>Help & Support<span class="marrow"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></div>
+    </div>
+    <button class="btn-danger" style="margin-top:18px;" onclick="confirmLogout()">Lock App</button>
+  </div>
+
+  <!-- MODAL OVERLAY -->
+  <div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal" id="modalBody"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottomnav" id="bottomnav" style="display:none;">
+    <div class="nav-item" data-target="home" onclick="showScreen('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>Home</div>
+    <div class="nav-item" data-target="analytics" onclick="showScreen('analytics')"><svg class="ic" viewBox="0 0 24 24"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg>Analytics</div>
+    <div class="nav-item" data-target="wallets" onclick="showScreen('wallets')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v3"/><path d="M3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2H5"/><circle cx="17" cy="13" r="1.2" fill="currentColor" stroke="none"/></svg>Wallets</div>
+    <div class="nav-item" data-target="profile" onclick="showScreen('profile')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</div>
+  </div>
+  <div class="home-indicator" id="homeIndicator" style="display:none;"></div>
+</div>
+
+<script>
+/* ============================================================
+   এই অ্যাপটি সম্পূর্ণ অফলাইন — কোনো ইন্টারনেট বা সার্ভারের প্রয়োজন নেই।
+   সব ডেটা এই ডিভাইসের localStorage-এ সংরক্ষিত থাকে।
+   ============================================================ */
+/* ---------------- HARD ZOOM LOCK (belt-and-braces for WebView wrappers
+   like AppsGeyser that sometimes ignore the viewport meta tag) ---------------- */
+(function lockZoom(){
+  // Block pinch-zoom gestures (iOS WebKit-style gesture events, harmless elsewhere)
+  document.addEventListener('gesturestart', function(e){ e.preventDefault(); }, {passive:false});
+  document.addEventListener('gesturechange', function(e){ e.preventDefault(); }, {passive:false});
+  // Block multi-touch pinch on Android WebViews
+  document.addEventListener('touchmove', function(e){
+    if(e.touches && e.touches.length > 1) e.preventDefault();
+  }, {passive:false});
+  // Block double-tap-to-zoom
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function(e){
+    const now = Date.now();
+    if(now - lastTouchEnd <= 300) e.preventDefault();
+    lastTouchEnd = now;
+  }, {passive:false});
+})();
+
+const LS_KEY = 'mywallet_appdata_v1';
+
+/* ---------------- STATE ---------------- */
+let state = {
+  user: { name:"" },
+  pin: null,
+  wallets: [
+    {id:"bkash", name:"bKash", color:"#e2136e", balance:0, custom:false},
+    {id:"nagad", name:"Nagad", color:"#f7941e", balance:0, custom:false},
+    {id:"rocket", name:"Rocket", color:"#8a3ffc", balance:0, custom:false},
+    {id:"binance", name:"Binance", color:"#f0b90b", balance:0, custom:false},
+    {id:"bank", name:"Bank Account", color:"#60a5fa", balance:0, custom:false},
+    {id:"cash", name:"Cash", color:"#22c55e", balance:0, custom:false},
+  ],
+  transactions: [],
+  theme: "dark"
+};
+
+const THEMES = [
+  {id:'light', name:'Light', desc:'উজ্জ্বল, সাদা ব্যাকগ্রাউন্ড', bg:'#f4f5f8', panel:'#ffffff'},
+  {id:'grey',  name:'Grey',  desc:'নরম, মাঝারি টোনের ব্যাকগ্রাউন্ড', bg:'#3d4149', panel:'#484c55'},
+  {id:'dark',  name:'Dark',  desc:'কালো, চোখে আরামদায়ক ব্যাকগ্রাউন্ড', bg:'#0b0e14', panel:'#131722'},
+];
+
+function cryptoId(){ return 'tx_'+Math.random().toString(36).slice(2,10); }
+function fmt(n){ return "Tk " + Math.round(n).toLocaleString('en-IN'); }
+function walletById(id){ return state.wallets.find(w=>w.id===id); }
+
+/* ---------------- NAVIGATION ---------------- */
+function showScreen(id){
+  // Blur any focused input first so the on-screen keyboard collapses BEFORE
+  // we swap screens — Android WebView (AppsGeyser etc.) sometimes leaves the
+  // page's viewport/scroll position shifted if the keyboard is still closing
+  // while the layout changes underneath it (this is what caused the Home
+  // screen to look cut-off/shifted right after PIN entry).
+  if(document.activeElement && typeof document.activeElement.blur === 'function'){
+    document.activeElement.blur();
+  }
+
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const nextScreen = document.getElementById(id);
+  nextScreen.classList.add('active');
+  const nav = document.getElementById('bottomnav');
+  const indicator = document.getElementById('homeIndicator');
+  if(id === 'login'){
+    nav.style.display='none'; indicator.style.display='none';
+  } else {
+    nav.style.display='flex'; indicator.style.display='block';
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    const target = document.querySelector('.nav-item[data-target="'+id+'"]');
+    if(target) target.classList.add('active');
+  }
+  if(id==='home') renderHome();
+  if(id==='wallets') renderWallets();
+  if(id==='profile') renderProfile();
+  if(id==='analytics') renderAnalytics();
+  if(id==='calendar') renderCalendar();
+  closeNotifications();
+
+  // Force the scroll/viewport position back to a clean top-left state.
+  // Run it now and again after the keyboard-close animation settles.
+  resetScrollPosition(nextScreen);
+  setTimeout(()=>resetScrollPosition(nextScreen), 350);
+}
+
+function resetScrollPosition(screenEl){
+  window.scrollTo(0,0);
+  document.documentElement.scrollLeft = 0;
+  document.body.scrollLeft = 0;
+  if(screenEl){
+    screenEl.scrollLeft = 0;
+    screenEl.scrollTop = 0;
+  }
+}
+
+/* ---------------- TOAST ---------------- */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ---------------- MODAL ---------------- */
+function openModal(html){
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
+
+/* ---------------- LOCAL STORAGE (fully offline persistence) ---------------- */
+function serializeState(){
+  return {
+    user: state.user,
+    pin: state.pin,
+    wallets: state.wallets,
+    theme: state.theme,
+    transactions: state.transactions.map(t=>({...t, dt: t.dt.toISOString()})),
+    updatedAt: new Date().toISOString()
+  };
+}
+function deserializeIntoState(data){
+  state.user = data.user || state.user;
+  state.pin = data.pin || state.pin;
+  state.wallets = data.wallets || state.wallets;
+  state.theme = data.theme || 'dark';
+  state.transactions = (data.transactions || []).map(t=>({...t, dt:new Date(t.dt)}));
+  document.documentElement.setAttribute('data-theme', state.theme);
+}
+function saveLocal(){
+  try{
+    localStorage.setItem(LS_KEY, JSON.stringify(serializeState()));
+  }catch(err){
+    console.error('Local save failed:', err);
+  }
+}
+function loadLocalRaw(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(err){
+    console.error('Local load failed:', err);
+    return null;
+  }
+}
+// Kept under its original name so every existing call site (add/delete tx,
+// wallet changes, theme changes, profile edits, etc.) keeps working unchanged —
+// it now just persists to this device instead of the cloud.
+function syncStateToCloud(){ saveLocal(); }
+
+/* ---------------- PIN AUTH (fully offline, native keyboard entry) ---------------- */
+let pinState = { mode:null, firstEntry:null };
+
+function initAuthScreen(){
+  const data = loadLocalRaw();
+  if(data && data.pin){
+    document.getElementById('pinSetupCard').style.display='none';
+    document.getElementById('pinUnlockCard').style.display='block';
+    document.getElementById('unlockGreeting').textContent = data.user && data.user.name ? ('Welcome back, ' + data.user.name) : 'Welcome Back';
+    pinState = {mode:'unlock', firstEntry:null};
+    const inp = document.getElementById('unlockPinInput');
+    inp.value = '';
+    setTimeout(()=>inp.focus(), 250);
+  } else {
+    document.getElementById('pinSetupCard').style.display='block';
+    document.getElementById('pinUnlockCard').style.display='none';
+    document.getElementById('setupTitle').textContent = 'Create Your PIN';
+    document.getElementById('setupPinLabel').textContent = '৪-সংখ্যার পিন দিন';
+    document.getElementById('setupPinInput').value = '';
+    pinState = {mode:'setup-first', firstEntry:null};
+  }
+}
+
+// Called on every keystroke from the phone's own keyboard — strips non-digits,
+// caps at 4, and auto-submits once 4 digits are in.
+function onSetupPinInput(el){
+  el.value = el.value.replace(/[^0-9]/g,'').slice(0,4);
+  if(el.value.length===4) handlePinComplete(el.value);
+}
+function onUnlockPinInput(el){
+  el.value = el.value.replace(/[^0-9]/g,'').slice(0,4);
+  if(el.value.length===4) handlePinComplete(el.value);
+}
+
+function handlePinComplete(pinValue){
+  if(pinState.mode==='setup-first'){
+    const name = document.getElementById('setupName').value.trim();
+    if(!name){
+      showToast('আগে আপনার নাম লিখুন');
+      document.getElementById('setupPinInput').value='';
+      return;
+    }
+    pinState.firstEntry = pinValue;
+    pinState.mode='setup-confirm';
+    document.getElementById('setupTitle').textContent = 'Confirm Your PIN';
+    document.getElementById('setupPinLabel').textContent = 'আবার সেই পিনটি দিন';
+    const inp = document.getElementById('setupPinInput');
+    inp.value='';
+    inp.focus();
+  } else if(pinState.mode==='setup-confirm'){
+    if(pinValue !== pinState.firstEntry){
+      showToast('পিন মিলছে না, আবার চেষ্টা করুন');
+      pinState.firstEntry=null; pinState.mode='setup-first';
+      document.getElementById('setupTitle').textContent = 'Create Your PIN';
+      document.getElementById('setupPinLabel').textContent = '৪-সংখ্যার পিন দিন';
+      const inp = document.getElementById('setupPinInput');
+      inp.value='';
+      inp.focus();
+      return;
+    }
+    const name = document.getElementById('setupName').value.trim();
+    state.user.name = name;
+    state.pin = pinValue;
+    saveLocal();
+    finishAuth();
+  } else if(pinState.mode==='unlock'){
+    const data = loadLocalRaw();
+    if(data && pinValue === data.pin){
+      deserializeIntoState(data);
+      finishAuth();
+    } else {
+      showToast('ভুল পিন, আবার চেষ্টা করুন');
+      const inp = document.getElementById('unlockPinInput');
+      inp.value='';
+      inp.focus();
+    }
+  }
+}
+
+function finishAuth(){
+  const now = new Date();
+  document.getElementById('txDate').value = now.toISOString().slice(0,10);
+  document.getElementById('txTime').value = now.toTimeString().slice(0,5);
+  showScreen('home');
+}
+
+function confirmLogout(){
+  openModal(`
+    <div class="modal-head"><h3>Lock the app?</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <p style="font-size:13px;color:var(--sub);margin-bottom:18px;">আবার ঢুকতে আপনার ৪-সংখ্যার পিন দিতে হবে। আপনার সব ডেটা এই ডিভাইসেই থেকে যাবে।</p>
+    <button class="btn-danger" onclick="doLogout()">Lock App</button>
+    <div style="height:10px;"></div>
+    <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+  `);
+}
+function doLogout(){
+  closeModal();
+  const data = loadLocalRaw();
+  pinState = {mode:'unlock', firstEntry:null};
+  document.getElementById('pinSetupCard').style.display='none';
+  document.getElementById('pinUnlockCard').style.display='block';
+  document.getElementById('unlockGreeting').textContent = data && data.user && data.user.name ? ('Welcome back, ' + data.user.name) : 'Welcome Back';
+  const inp = document.getElementById('unlockPinInput');
+  inp.value='';
+  showScreen('login');
+  setTimeout(()=>inp.focus(), 250);
+  showToast('অ্যাপ লক করা হয়েছে');
+}
+
+function confirmResetApp(){
+  openModal(`
+    <div class="modal-head"><h3>পিন রিসেট করবেন?</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <p style="font-size:13px;color:var(--sub);margin-bottom:18px;">এতে এই ডিভাইসে সংরক্ষিত সব ডেটা (ওয়ালেট, লেনদেন) মুছে যাবে। ব্যাকআপ ফাইল না থাকলে ডেটা ফিরিয়ে আনা যাবে না।</p>
+    <button class="btn-danger" onclick="doResetApp()">সব মুছে নতুন করে শুরু করুন</button>
+    <div style="height:10px;"></div>
+    <button class="btn-secondary" onclick="closeModal()">বাতিল</button>
+  `);
+}
+function doResetApp(){
+  localStorage.removeItem(LS_KEY);
+  closeModal();
+  location.reload();
+}
+
+/* ---------------- BACKUP / RESTORE (export & import to a local file) ---------------- */
+function openBackupModal(){
+  openModal(`
+    <div class="modal-head"><h3>Backup & Restore</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <p style="font-size:12.5px;color:var(--sub);margin-bottom:16px;">অ্যাপ ডিলিট বা রিইনস্টল করার আগে আপনার সব ডেটা একটি ফাইলে ডাউনলোড করে রাখুন। পরে সেই ফাইল থেকে সব ডেটা আবার ফিরিয়ে আনতে পারবেন।</p>
+    <button class="btn-primary" onclick="exportData()" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg> Export Data (Download File)</button>
+    <div style="height:12px;"></div>
+    <button class="btn-secondary" onclick="document.getElementById('importFileInput').click()" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg class="ic" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M7 14l5-5 5 5"/><path d="M4 19h16"/></svg> Import Data (Upload File)</button>
+    <input type="file" id="importFileInput" accept="application/json" style="display:none;" onchange="importDataFile(event)">
+  `);
+}
+function exportData(){
+  const data = serializeState();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dateStr = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `my-wallet-backup-${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('ব্যাকআপ ফাইল ডাউনলোড হয়েছে');
+}
+function importDataFile(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!data || !Array.isArray(data.wallets)) throw new Error('invalid backup file');
+      deserializeIntoState(data);
+      saveLocal();
+      closeModal();
+      showToast('ডেটা সফলভাবে ফিরিয়ে আনা হয়েছে');
+      renderHome(); renderWallets(); renderProfile(); renderAnalytics();
+    }catch(err){
+      showToast('ফাইলটি সঠিক নয় বা ক্ষতিগ্রস্ত');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+function importOnSetup(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!data || !Array.isArray(data.wallets) || !data.pin) throw new Error('invalid backup file');
+      deserializeIntoState(data);
+      saveLocal();
+      showToast('ব্যাকআপ থেকে ডেটা ফিরিয়ে আনা হয়েছে');
+      finishAuth();
+    }catch(err){
+      showToast('ফাইলটি সঠিক নয় বা ক্ষতিগ্রস্ত');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+/* ---------------- NOTIFICATIONS ---------------- */
+function toggleNotifications(e){
+  e.stopPropagation();
+  const panel = document.getElementById('notifPanel');
+  if(panel.classList.contains('open')){ panel.classList.remove('open'); return; }
+  const recent = [...state.transactions].sort((a,b)=>b.dt-a.dt).slice(0,4);
+  panel.innerHTML = recent.map(t=>{
+    const w = walletById(t.wallet);
+    return `<div class="notif-item"><b>${t.note || t.type}</b><br>${fmt(t.amount)} • ${w?w.name:''}</div>`;
+  }).join('') || '<div class="notif-item">No notifications yet</div>';
+  panel.classList.add('open');
+}
+function closeNotifications(){ document.getElementById('notifPanel').classList.remove('open'); }
+document.addEventListener('click', function(e){
+  const panel = document.getElementById('notifPanel');
+  if(panel.classList.contains('open') && !e.target.closest('.bell')) panel.classList.remove('open');
+});
+
+/* ---------------- HOME RENDER ---------------- */
+function renderHome(){
+  document.getElementById('homeUserName').textContent = state.user.name;
+  document.getElementById('homeAvatarInit').textContent = (state.user.name||'?').charAt(0).toUpperCase();
+
+  const netWorth = state.wallets.reduce((s,w)=>s+w.balance,0);
+  document.getElementById('netWorthAmt').textContent = fmt(netWorth);
+  renderSparkline(netWorth);
+
+  const scroll = document.getElementById('homeWalletsScroll');
+  scroll.innerHTML = state.wallets.map(w=>`
+    <div class="wallet-chip" onclick="openWalletModal('${w.id}')">
+      <div class="wname"><span class="dot" style="background:${w.color}"></span>${w.name}</div>
+      <div class="wamt">${fmt(w.balance)}</div>
+    </div>`).join('');
+
+  const sums = computeSums(state.transactions);
+  document.getElementById('statGrid').innerHTML = `
+    <div class="stat-box"><div class="stitle"><span class="dot" style="background:var(--green)"></span> INCOME</div><div class="samt">${fmt(sums.income)}</div></div>
+    <div class="stat-box"><div class="stitle"><span class="dot" style="background:var(--red)"></span> EXPENSE</div><div class="samt">${fmt(sums.expense)}</div></div>
+    <div class="stat-box"><div class="stitle"><span class="dot" style="background:var(--blue)"></span> SAVINGS</div><div class="samt">${fmt(sums.savings)}</div></div>
+    <div class="stat-box"><div class="stitle"><span class="dot" style="background:var(--yellow)"></span> LOANS GIVEN</div><div class="samt">${fmt(sums.loanGiven)}</div></div>
+    <div class="stat-box" style="grid-column:1/3;"><div class="stitle"><span class="dot" style="background:#f97316"></span> LOANS TAKEN (LOANS TO PAY)</div><div class="samt">${fmt(sums.loanTaken)}</div></div>
+    <div class="add-tx-btn" onclick="openAddTransaction()"><span class="plus-ic">+</span> Add Transaction</div>
+  `;
+
+  const recent = [...state.transactions].sort((a,b)=>b.dt-a.dt).slice(0,4);
+  document.getElementById('recentTxList').innerHTML = recent.length ? recent.map(txRowHtml).join('')
+    : `<div class="empty-note">No transactions yet. Tap + to add one.</div>`;
+
+  fixHomeZoom();
+}
+
+// FIX: Home page is the one screen whose content (the horizontally-scrollable
+// wallet row) is briefly wider than the viewport while being injected/measured.
+// AppsGeyser-style Android WebViews using useWideViewPort(true) sometimes
+// mis-measure that moment and lock the whole page's zoom/scale to it,
+// cropping the sides — even though CSS `contain` on .wallets-scroll now
+// stops it from actually happening in most cases. This function is kept as
+// a belt-and-braces nudge: it forces the WebView to recompute the correct
+// scale, and now runs several times (immediately + staggered delays) since
+// some WebViews re-measure asynchronously, later than a single rAF catches.
+function fixHomeZoom(){
+  const meta = document.querySelector('meta[name="viewport"]');
+  if(!meta) return;
+  const original = meta.getAttribute('content');
+  const w = document.documentElement.clientWidth || window.innerWidth;
+  const nudge = ()=>{
+    meta.setAttribute('content', 'width='+w+', initial-scale=1, maximum-scale=1, user-scalable=no');
+    requestAnimationFrame(()=>{
+      meta.setAttribute('content', original);
+      window.scrollTo(0,0);
+    });
+  };
+  [0, 50, 150, 300, 600, 1000].forEach(t=>setTimeout(nudge, t));
+}
+function computeSums(list){
+  const s = {income:0, expense:0, savings:0, loanGiven:0, loanTaken:0};
+  list.forEach(t=>{ s[t.type] = (s[t.type]||0) + t.amount; });
+  return s;
+}
+function txIcon(t){
+  const S = 'width:19px;height:19px;';
+  if(t.type==='income') return `<svg class="ic" style="${S}" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>`;
+  if(t.type==='savings') return `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="5" y1="10" x2="5" y2="19"/><line x1="9" y1="10" x2="9" y2="19"/><line x1="15" y1="10" x2="15" y2="19"/><line x1="19" y1="10" x2="19" y2="19"/><line x1="3" y1="19" x2="21" y2="19"/></svg>`;
+  if(t.type==='loanGiven') return `<svg class="ic" style="${S}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 13l3-3 2 2 3-3"/><path d="M16 9h-3v3"/></svg>`;
+  if(t.type==='loanTaken') return `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M4 12h4l2 3h4l2-3h4"/><path d="M4 12l1-7h14l1 7"/><path d="M4 12v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-6"/></svg>`;
+  if(t.type==='adjustment') return `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.6 5.1L3 17.5V21h3.5l6-6.1a4 4 0 0 0 5.1-5.6l-2.6 2.6-2-2 2.6-2.6z"/></svg>`;
+  const map = {
+    "Food & Dining": `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M6 2v8a2 2 0 0 0 2 2v10"/><path d="M6 2v6M9 2v6"/><path d="M18 2c-2 0-3 2-3 5v4h3v11"/></svg>`,
+    "Rent & Utilities": `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>`,
+    "Transportation": `<svg class="ic" style="${S}" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="10" rx="2"/><line x1="3" y1="11" x2="21" y2="11"/><circle cx="7" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>`,
+    "Shopping": `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M6 8h12l1 12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`,
+    "Entertainment": `<svg class="ic" style="${S}" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><line x1="7" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="17" y2="20"/><line x1="3" y1="9" x2="7" y2="9"/><line x1="3" y1="15" x2="7" y2="15"/><line x1="17" y1="9" x2="21" y2="9"/><line x1="17" y1="15" x2="21" y2="15"/></svg>`,
+    "Other": `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><line x1="12" y1="13" x2="12" y2="21"/></svg>`
+  };
+  return map[t.subcat] || `<svg class="ic" style="${S}" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><line x1="12" y1="13" x2="12" y2="21"/></svg>`;
+}
+function txSign(t){
+  if(t.type==='adjustment') return t.sign;
+  return (t.type==='expense' || t.type==='savings' || t.type==='loanGiven') ? '-' : '+';
+}
+function txClass(t){ return txSign(t)==='-' ? 'neg' : 'pos'; }
+function dateLabel(dt){
+  const now=new Date(); const d0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const d1=new Date(dt.getFullYear(),dt.getMonth(),dt.getDate());
+  const diff = Math.round((d0-d1)/86400000);
+  if(diff===0) return 'Today, '+dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  if(diff===1) return 'Yesterday, '+dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  return dt.toLocaleDateString('en-US',{day:'2-digit',month:'short'});
+}
+function txRowHtml(t){
+  const w = walletById(t.wallet);
+  return `<div class="tx-row" onclick="openTxModal('${t.id}')">
+    <div class="tx-icon">${txIcon(t)}</div>
+    <div class="tx-info"><div class="tname">${t.note || t.type}</div><div class="tmeta">${dateLabel(t.dt)} • ${w?w.name:'—'}</div></div>
+    <div class="tx-amt ${txClass(t)}">${txSign(t)}${fmt(t.amount)}</div>
+  </div>`;
+}
+
+/* ---------------- WALLET MODAL ---------------- */
+function openWalletModal(id){
+  const w = walletById(id);
+  const txs = state.transactions.filter(t=>t.wallet===id).sort((a,b)=>b.dt-a.dt).slice(0,8);
+  openModal(`
+    <div class="modal-head"><h3><span class="dot" style="background:${w.color};display:inline-block;margin-right:6px;"></span>${w.name}</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <div style="font-size:24px;font-weight:700;margin-bottom:16px;">${fmt(w.balance)}</div>
+    <div class="two-col" style="margin-bottom:6px;">
+      <button class="btn-secondary" onclick="closeModal();openAddTransaction('${id}')">+ Add Transaction</button>
+      <button class="btn-secondary" onclick="openAdjustBalance('${id}')">Adjust Balance</button>
+    </div>
+    ${w.custom ? `<button class="btn-danger" style="margin-top:10px;" onclick="deleteWallet('${id}')">Delete Wallet</button>` : ''}
+    <div style="margin-top:16px;font-size:11px;color:var(--sub);letter-spacing:.05em;">RECENT ACTIVITY</div>
+    <div class="tx-list">${txs.length ? txs.map(txRowHtml).join('') : '<div class="empty-note">No transactions for this wallet yet.</div>'}</div>
+  `);
+}
+function openAdjustBalance(id){
+  const w = walletById(id);
+  openModal(`
+    <div class="modal-head"><h3>Adjust Balance — ${w.name}</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <span class="label-sm">NEW BALANCE (BDT)</span>
+    <div class="textbox"><input class="plain" id="adjBalInput" type="number" value="${w.balance}"></div>
+    <button class="btn-primary" onclick="saveAdjustBalance('${id}')">Save Balance</button>
+  `);
+}
+function saveAdjustBalance(id){
+  const w = walletById(id);
+  const val = parseFloat(document.getElementById('adjBalInput').value);
+  if(isNaN(val)){ showToast('Enter a valid number'); return; }
+  const delta = val - w.balance;
+  if(delta !== 0){
+    state.transactions.unshift({
+      id: cryptoId(), type:'adjustment', subcat:'', wallet:id,
+      amount: Math.abs(delta), sign: delta>=0 ? '+' : '-',
+      dt: new Date(), note:'Balance Adjustment', desc:''
+    });
+  }
+  w.balance = val;
+  closeModal(); showToast('Balance updated'); renderHome(); renderWallets(); renderAnalytics();
+  syncStateToCloud();
+}
+function deleteWallet(id){
+  state.wallets = state.wallets.filter(w=>w.id!==id);
+  walletFilterIdx = -1;
+  const walletChipEl = document.getElementById('walletChip');
+  if(walletChipEl) walletChipEl.textContent = 'All Wallets';
+  closeModal(); showToast('Wallet deleted'); renderHome(); renderWallets(); renderAnalytics();
+  syncStateToCloud();
+}
+
+/* ---------------- TX DETAIL MODAL ---------------- */
+function openTxModal(id){
+  const t = state.transactions.find(x=>x.id===id);
+  const w = walletById(t.wallet);
+  openModal(`
+    <div class="modal-head"><h3>${t.note || t.type}</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <div style="font-size:24px;font-weight:700;margin-bottom:4px;" class="${txClass(t)}">${txSign(t)}${fmt(t.amount)}</div>
+    <div style="font-size:12px;color:var(--sub);margin-bottom:16px;">${dateLabel(t.dt)} • ${w?w.name:'—'}${t.subcat ? ' • '+t.subcat : ''}</div>
+    ${t.desc ? `<div class="textbox" style="margin-bottom:16px;">${t.desc}</div>` : ''}
+    <button class="btn-danger" onclick="deleteTx('${t.id}')">Delete Transaction</button>
+  `);
+}
+function deleteTx(id){
+  const t = state.transactions.find(x=>x.id===id);
+  const w = walletById(t.wallet);
+  if(w){
+    if(txSign(t)==='-') w.balance += t.amount; else w.balance -= t.amount;
+  }
+  state.transactions = state.transactions.filter(x=>x.id!==id);
+  closeModal(); showToast('Transaction deleted');
+  renderHome(); renderAnalytics();
+  syncStateToCloud();
+}
+
+/* ---------------- ADD TRANSACTION ---------------- */
+let selectedCategory = 'expense';
+let selectedWallet = 'bank';
+
+function openAddTransaction(preselectWallet){
+  selectedCategory='expense';
+  document.querySelectorAll('#categoryChips .chip').forEach(c=>c.classList.remove('active'));
+  document.querySelector('#categoryChips .chip[data-val="expense"]').classList.add('active');
+  document.getElementById('subcatWrap').style.display='block';
+  document.getElementById('amountInput').value='';
+  document.getElementById('txNote').value='';
+  document.getElementById('txDesc').value='';
+  const now = new Date();
+  document.getElementById('txDate').value = now.toISOString().slice(0,10);
+  document.getElementById('txTime').value = now.toTimeString().slice(0,5);
+  selectedWallet = preselectWallet || (walletById('bank') ? 'bank' : (state.wallets[0] ? state.wallets[0].id : ''));
+  renderTxWalletRow();
+  showScreen('add');
+}
+function renderTxWalletRow(){
+  const row = document.getElementById('txWalletRow');
+  row.innerHTML = state.wallets.map(w=>`
+    <div class="wsel ${w.id===selectedWallet?'active':''}" data-val="${w.id}" onclick="selectChip(this,'wallet')">
+      <span class="dot" style="background:${w.color}"></span>${w.name}
+    </div>`).join('');
+}
+function selectChip(el, group){
+  if(group==='category'){
+    document.querySelectorAll('#categoryChips .chip').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active');
+    selectedCategory = el.dataset.val;
+    document.getElementById('subcatWrap').style.display = selectedCategory==='expense' ? 'block' : 'none';
+  } else if(group==='wallet'){
+    document.querySelectorAll('#txWalletRow .wsel').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active');
+    selectedWallet = el.dataset.val;
+  }
+}
+function cleanAmount(){
+  const inp = document.getElementById('amountInput');
+  inp.value = inp.value.replace(/[^0-9]/g,'');
+}
+function backspaceAmount(){
+  const inp = document.getElementById('amountInput');
+  inp.value = inp.value.slice(0,-1);
+}
+function cancelAddTransaction(){
+  const amt = document.getElementById('amountInput').value;
+  const note = document.getElementById('txNote').value;
+  if(amt || note){
+    openModal(`
+      <div class="modal-head"><h3>Discard transaction?</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:18px;">Your entry hasn't been saved yet.</p>
+      <button class="btn-danger" onclick="closeModal();showScreen('home')">Discard</button>
+      <div style="height:10px;"></div>
+      <button class="btn-secondary" onclick="closeModal()">Keep Editing</button>
+    `);
+  } else {
+    showScreen('home');
+  }
+}
+function saveTransaction(){
+  const amount = parseFloat(document.getElementById('amountInput').value);
+  if(!amount || amount<=0){ showToast('Enter a valid amount'); return; }
+  const w = walletById(selectedWallet);
+  if(!w){ showToast('Select a wallet'); return; }
+  const dateVal = document.getElementById('txDate').value;
+  const timeVal = document.getElementById('txTime').value;
+  const dt = new Date(dateVal+'T'+(timeVal||'00:00'));
+  const note = document.getElementById('txNote').value.trim();
+  const desc = document.getElementById('txDesc').value.trim();
+  const subcat = selectedCategory==='expense' ? document.getElementById('subcatSelect').value : '';
+
+  const t = {id:cryptoId(), type:selectedCategory, subcat, wallet:selectedWallet, amount, dt, note, desc};
+  state.transactions.unshift(t);
+
+  if(txSign(t)==='-') w.balance -= amount; else w.balance += amount;
+
+  showToast('Transaction saved');
+  showScreen('home');
+  syncStateToCloud();
+}
+
+/* ---------------- ANALYTICS ---------------- */
+let anTab = 'stats';
+let periodFilter = 'month';
+let walletFilterIdx = -1; // -1 = all wallets
+
+function switchAnTab(tab){
+  anTab = tab;
+  document.querySelectorAll('.an-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.an-tab[data-tab="'+tab+'"]').classList.add('active');
+  document.getElementById('statsPane').style.display = tab==='stats' ? 'block' : 'none';
+  document.getElementById('historyPane').style.display = tab==='history' ? 'block' : 'none';
+  renderAnalytics();
+}
+function togglePeriod(){
+  periodFilter = periodFilter==='month' ? 'all' : 'month';
+  document.getElementById('periodChip').textContent = periodFilter==='month' ? 'This Month' : 'All Time';
+  renderAnalytics();
+}
+function cycleWalletFilter(){
+  walletFilterIdx++;
+  if(walletFilterIdx>=state.wallets.length) walletFilterIdx=-1;
+  document.getElementById('walletChip').textContent = walletFilterIdx===-1 ? 'All Wallets' : state.wallets[walletFilterIdx].name;
+  renderAnalytics();
+}
+function openHistory(){
+  showScreen('analytics');
+  switchAnTab('history');
+}
+function getFilteredTx(){
+  const now = new Date();
+  return state.transactions.filter(t=>{
+    if(periodFilter==='month' && (t.dt.getMonth()!==now.getMonth() || t.dt.getFullYear()!==now.getFullYear())) return false;
+    if(walletFilterIdx!==-1 && t.wallet!==state.wallets[walletFilterIdx].id) return false;
+    return true;
+  });
+}
+function renderAnalytics(){
+  const filtered = getFilteredTx();
+  const catFilter = document.getElementById('categoryFilter') ? document.getElementById('categoryFilter').value : 'all';
+
+  const histList = [...filtered].sort((a,b)=>b.dt-a.dt);
+  document.getElementById('historyList').innerHTML = histList.length ? histList.map(t=>{
+    const w = walletById(t.wallet);
+    return `<div class="tx-row">
+      <div class="tx-icon">${txIcon(t)}</div>
+      <div class="tx-info"><div class="tname">${t.note||t.type}</div><div class="tmeta">${dateLabel(t.dt)} • ${w?w.name:'—'}</div></div>
+      <div class="tx-amt ${txClass(t)}">${txSign(t)}${fmt(t.amount)}</div>
+      <div class="xdel" onclick="event.stopPropagation();deleteTx('${t.id}')"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div>
+    </div>`;
+  }).join('') : `<div class="empty-note">No transactions match this filter.</div>`;
+
+  let expenses = filtered.filter(t=>t.type==='expense');
+  if(catFilter!=='all') expenses = expenses.filter(t=>t.subcat===catFilter);
+  const byCat = {};
+  expenses.forEach(t=>{ byCat[t.subcat||'Other'] = (byCat[t.subcat||'Other']||0) + t.amount; });
+  const total = Object.values(byCat).reduce((a,b)=>a+b,0);
+  const colors = {"Food & Dining":"#3b82f6","Rent & Utilities":"#22c55e","Transportation":"#ef4444","Shopping":"#a855f7","Entertainment":"#f472b6","Other":"#94a3b8"};
+
+  let svg = '';
+  let offset = 0;
+  Object.entries(byCat).forEach(([cat,amt])=>{
+    const pct = total? (amt/total*100):0;
+    svg += `<circle cx="21" cy="21" r="15.9" fill="transparent" stroke="${colors[cat]||'#94a3b8'}" stroke-width="6" stroke-dasharray="${pct} ${100-pct}" stroke-dashoffset="${25-offset}"></circle>`;
+    offset += pct;
+  });
+  svg += `<text x="21" y="19" text-anchor="middle" font-size="4.2" fill="var(--text)" font-weight="700">TOTAL</text><text x="21" y="25" text-anchor="middle" font-size="4.2" fill="var(--text)" font-weight="700">${Math.round(total).toLocaleString()}</text>`;
+  document.getElementById('donutSvg').innerHTML = total ? svg : `<circle cx="21" cy="21" r="15.9" fill="transparent" stroke="var(--border)" stroke-width="6"></circle><text x="21" y="23" text-anchor="middle" font-size="4" fill="var(--sub)">No data</text>`;
+
+  document.getElementById('donutLegend').innerHTML = Object.entries(byCat).map(([cat,amt])=>{
+    const pct = total? Math.round(amt/total*100):0;
+    return `<div class="legend-item"><span class="dot" style="background:${colors[cat]||'#94a3b8'}"></span>${cat} (${pct}%)</div>`;
+  }).join('') || '<div class="legend-item">Add an expense to see the breakdown</div>';
+
+  document.getElementById('catList').innerHTML = Object.entries(byCat).sort((a,b)=>b[1]-a[1]).map(([cat,amt])=>`
+    <div class="cat-row"><span class="dot" style="background:${colors[cat]||'#94a3b8'}"></span><div class="cname">${cat}</div><div class="camt">${fmt(amt)}</div></div>
+  `).join('') || '';
+
+  let barsSrc = state.transactions;
+  if(walletFilterIdx!==-1) barsSrc = barsSrc.filter(t=>t.wallet===state.wallets[walletFilterIdx].id);
+  const months = [];
+  const now = new Date();
+  for(let i=5;i>=0;i--){ const d=new Date(now.getFullYear(), now.getMonth()-i, 1); months.push(d); }
+  let maxVal = 1;
+  const monthData = months.map(m=>{
+    const inSum = barsSrc.filter(t=>t.type==='income' && t.dt.getMonth()===m.getMonth() && t.dt.getFullYear()===m.getFullYear()).reduce((a,b)=>a+b.amount,0);
+    const exSum = barsSrc.filter(t=>t.type==='expense' && t.dt.getMonth()===m.getMonth() && t.dt.getFullYear()===m.getFullYear()).reduce((a,b)=>a+b.amount,0);
+    maxVal = Math.max(maxVal, inSum, exSum);
+    return {label:m.toLocaleDateString('en-US',{month:'short'}).toUpperCase(), inSum, exSum};
+  });
+  document.getElementById('barsChart').innerHTML = monthData.map(md=>`
+    <div class="bar-group">
+      <div class="bar-pair">
+        <div class="bar in" style="height:${Math.max(4,md.inSum/maxVal*70)}px"></div>
+        <div class="bar ex" style="height:${Math.max(4,md.exSum/maxVal*70)}px"></div>
+      </div>
+      <div class="m">${md.label}</div>
+    </div>`).join('');
+}
+
+/* ---------------- WALLETS SCREEN ---------------- */
+function renderWallets(){
+  const grid = document.getElementById('walletsGrid');
+  grid.innerHTML = state.wallets.map(w=>`
+    <div class="wcard" onclick="openWalletModal('${w.id}')">
+      <div class="wtop"><span class="dot" style="background:${w.color};width:10px;height:10px;"></span><span class="wname2">${w.name}</span></div>
+      <div class="wbal">${fmt(w.balance)}</div>
+    </div>`).join('') + `
+    <div class="wcard add-wallet-card" onclick="openAddWalletModal()">
+      <div class="plus">+</div>Add Wallet
+    </div>`;
+}
+function openAddWalletModal(){
+  const colors = ['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#f472b6','#06b6d4'];
+  openModal(`
+    <div class="modal-head"><h3>Add Wallet</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <span class="label-sm">WALLET NAME</span>
+    <div class="textbox"><input class="plain" id="newWalletName" placeholder="e.g. Upay, PayPal, Card"></div>
+    <span class="label-sm">STARTING BALANCE (BDT)</span>
+    <div class="textbox"><input class="plain" id="newWalletBal" type="number" placeholder="0"></div>
+    <span class="label-sm">COLOR</span>
+    <div class="chip-row">${colors.map(c=>`<div onclick="pickColor(this,'${c}')" data-color="${c}" style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer;border:2px solid transparent;"></div>`).join('')}</div>
+    <button class="btn-primary" onclick="saveNewWallet()">Create Wallet</button>
+  `);
+  window._newWalletColor = colors[0];
+}
+function pickColor(el,c){
+  document.querySelectorAll('#modalBody [data-color]').forEach(d=>d.style.borderColor='transparent');
+  el.style.borderColor = '#fff';
+  window._newWalletColor = c;
+}
+function saveNewWallet(){
+  const name = document.getElementById('newWalletName').value.trim();
+  const bal = parseFloat(document.getElementById('newWalletBal').value) || 0;
+  if(!name){ showToast('Enter a wallet name'); return; }
+  const id = 'w_'+Math.random().toString(36).slice(2,8);
+  state.wallets.push({id, name, color:window._newWalletColor||'#3b82f6', balance:bal, custom:true});
+  closeModal(); showToast('Wallet added'); renderWallets(); renderHome();
+  syncStateToCloud();
+}
+
+/* ---------------- PROFILE ---------------- */
+function renderProfile(){
+  document.getElementById('profileName').textContent = state.user.name;
+  document.getElementById('profileAvatarInit').textContent = (state.user.name||'?').charAt(0).toUpperCase();
+}
+function openEditProfile(){
+  openModal(`
+    <div class="modal-head"><h3>Edit Profile</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <span class="label-sm">FULL NAME</span>
+    <div class="textbox"><input class="plain" id="editName" value="${state.user.name}"></div>
+    <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+  `);
+}
+function saveProfile(){
+  const name = document.getElementById('editName').value.trim();
+  if(name) state.user.name = name;
+  closeModal(); showToast('Profile updated'); renderProfile(); renderHome();
+  syncStateToCloud();
+}
+
+/* ---------------- APPEARANCE / THEME ---------------- */
+function openThemeModal(){
+  openModal(`
+    <div class="modal-head"><h3>Appearance</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <p style="font-size:12.5px;color:var(--sub);margin-bottom:16px;">আপনার পছন্দের থিমটি বেছে নিন — সাথে সাথেই অ্যাপ্লাই হয়ে যাবে।</p>
+    ${THEMES.map(t=>`
+      <div class="theme-option ${state.theme===t.id?'active':''}" onclick="setTheme('${t.id}')">
+        <div class="theme-swatch" style="background:${t.bg}"><span class="sw-panel" style="background:${t.panel}"></span></div>
+        <div><div class="tname">${t.name}</div><div class="tdesc">${t.desc}</div></div>
+        <span class="theme-check"><svg class="ic" style="width:15px;height:15px;" viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg></span>
+      </div>`).join('')}
+  `);
+}
+function setTheme(themeId){
+  state.theme = themeId;
+  document.documentElement.setAttribute('data-theme', themeId);
+  openThemeModal();
+  showToast('থিম পরিবর্তন হয়েছে');
+  syncStateToCloud();
+}
+
+/* ---------------- TREND / SPARKLINE ---------------- */
+function buildPolylinePoints(values, width, height, padTop, padBottom){
+  if(!values.length) return `0,${height/2} ${width},${height/2}`;
+  if(values.length===1) return `0,${height/2} ${width},${height/2}`;
+  const min = Math.min(...values), max = Math.max(...values);
+  const range = (max-min) || 1;
+  const usableH = height - padTop - padBottom;
+  const stepX = width/(values.length-1);
+  return values.map((v,i)=>{
+    const x = i*stepX;
+    const y = padTop + usableH - ((v-min)/range)*usableH;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+}
+function cumulativeSeries(txList){
+  const sorted = [...txList].sort((a,b)=>a.dt-b.dt);
+  let running = 0;
+  const values = [0];
+  sorted.forEach(t=>{
+    running += (txSign(t)==='-') ? -t.amount : t.amount;
+    values.push(running);
+  });
+  return values;
+}
+function renderSparkline(currentNetWorth){
+  const values = cumulativeSeries(state.transactions);
+  const points = buildPolylinePoints(values, 300, 40, 4, 4);
+  document.getElementById('sparkLine').setAttribute('points', points);
+
+  const pill = document.getElementById('netWorthPill');
+  if(state.transactions.length < 2){
+    pill.style.display = 'none';
+  } else {
+    const first = values[0], last = values[values.length-1];
+    const diff = last - first;
+    const base = Math.abs(first) > 0 ? Math.abs(first) : Math.max(1, Math.abs(last));
+    const pct = (diff/base*100);
+    pill.style.display = 'inline-block';
+    if(diff >= 0){
+      pill.className = 'pill-up';
+      pill.textContent = '↑ +' + Math.abs(pct).toFixed(1) + '%';
+    } else {
+      pill.className = 'pill-down';
+      pill.textContent = '↓ -' + Math.abs(pct).toFixed(1) + '%';
+    }
+  }
+}
+
+/* ---------------- CALENDAR ---------------- */
+let calYear, calMonth;
+function openCalendar(){
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  showScreen('calendar');
+}
+function changeCalMonth(delta){
+  calMonth += delta;
+  if(calMonth<0){ calMonth=11; calYear--; }
+  if(calMonth>11){ calMonth=0; calYear++; }
+  renderCalendar();
+}
+function netWorthAsOf(endDate){
+  let running = 0;
+  state.transactions.forEach(t=>{
+    if(t.dt <= endDate) running += (txSign(t)==='-') ? -t.amount : t.amount;
+  });
+  return running;
+}
+function renderCalendar(){
+  const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  document.getElementById('calTitle').textContent = monthNames[calMonth] + ' ' + calYear;
+
+  const firstDay = new Date(calYear, calMonth, 1);
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const startOffset = firstDay.getDay();
+  const today = new Date();
+
+  let cells = '';
+  for(let i=0;i<startOffset;i++) cells += `<div class="cal-cell empty"></div>`;
+  for(let d=1; d<=daysInMonth; d++){
+    const dayStart = new Date(calYear, calMonth, d, 0,0,0);
+    const dayEnd = new Date(calYear, calMonth, d, 23,59,59);
+    const dayTx = state.transactions.filter(t=>t.dt>=dayStart && t.dt<=dayEnd);
+    const exp = dayTx.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amount,0);
+    const inc = dayTx.filter(t=>t.type==='income').reduce((a,b)=>a+b.amount,0);
+    const isToday = today.getFullYear()===calYear && today.getMonth()===calMonth && today.getDate()===d;
+    cells += `<div class="cal-cell ${isToday?'today':''}" onclick="openDayModal(${calYear},${calMonth},${d})">
+      <div class="dnum">${d}</div>
+      ${exp>0?`<div class="dexp">-${Math.round(exp)>=1000?(Math.round(exp/1000))+'k':Math.round(exp)}</div>`:''}
+      ${inc>0?`<div class="dinc">+${Math.round(inc)>=1000?(Math.round(inc/1000))+'k':Math.round(inc)}</div>`:''}
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = cells;
+
+  const values = [];
+  for(let d=1; d<=daysInMonth; d++){
+    values.push(netWorthAsOf(new Date(calYear, calMonth, d, 23,59,59)));
+  }
+  const points = buildPolylinePoints(values, 300, 90, 8, 8);
+  document.getElementById('calTrendLine').setAttribute('points', points);
+}
+function openDayModal(y,m,d){
+  const dayStart = new Date(y,m,d,0,0,0);
+  const dayEnd = new Date(y,m,d,23,59,59);
+  const dayTx = state.transactions.filter(t=>t.dt>=dayStart && t.dt<=dayEnd).sort((a,b)=>b.dt-a.dt);
+  const exp = dayTx.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amount,0);
+  const inc = dayTx.filter(t=>t.type==='income').reduce((a,b)=>a+b.amount,0);
+  const dateLbl = dayStart.toLocaleDateString('en-US',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  openModal(`
+    <div class="modal-head"><h3>${dateLbl}</h3><div class="modal-close" onclick="closeModal()"><svg class="ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div></div>
+    <div class="two-col" style="margin-bottom:14px;">
+      <div class="stat-box"><div class="stitle"><span class="dot" style="background:var(--red)"></span> EXPENSE</div><div class="samt">${fmt(exp)}</div></div>
+      <div class="stat-box"><div class="stitle"><span class="dot" style="background:var(--green)"></span> INCOME</div><div class="samt">${fmt(inc)}</div></div>
+    </div>
+    <div class="tx-list">${dayTx.length ? dayTx.map(txRowHtml).join('') : '<div class="empty-note">No transactions on this day.</div>'}</div>
+  `);
+}
+
+/* ---------------- INIT ---------------- */
+// Apply a previously-saved theme immediately (even before unlock) for a smoother look.
+(function applyStoredThemeEarly(){
+  const raw = loadLocalRaw();
+  if(raw && raw.theme) document.documentElement.setAttribute('data-theme', raw.theme);
+})();
+initAuthScreen();
+
+// Extra safety net for the Android WebView keyboard-dismiss offset bug:
+// some WebViews fire the layout/resize change asynchronously after the
+// keyboard closes, later than our navigation-time reset. Whenever the
+// window resizes (keyboard open/close is the main cause here since this
+// app has no other layout changes) snap the active screen back to 0,0.
+window.addEventListener('resize', function(){
+  const active = document.querySelector('.screen.active');
+  resetScrollPosition(active);
+});
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize', function(){
+    const active = document.querySelector('.screen.active');
+    resetScrollPosition(active);
+  });
+}
+</script>
+</body>
+</html>
